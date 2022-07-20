@@ -41,6 +41,7 @@ int bfs(vector<ii> v, int n, int m) {
                         f[ax][ay] = 0;
                     }
                 } else {
+                    if(f[ax][ay] == 2) f[ax][ay] = 0;
                     f[ax][ay] = (f[ax][ay] - 1 <= 0? 0 : f[ax][ay] - 1);
                 }
                 if(!visited[ax][ay]){
@@ -51,7 +52,6 @@ int bfs(vector<ii> v, int n, int m) {
                     }
                 }
             }
-            
         }
     }
     return c + v.size();
