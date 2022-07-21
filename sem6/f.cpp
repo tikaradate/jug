@@ -17,19 +17,19 @@ bool ok(int x, int y, int n, int m){
     return!(x < 0 || y < 0 || x >= n || y >= m);
 }
 
-int bfs(vector<ii> v, int n, int m) {
+int bfs(vector<ii> v, int n, int m, int t) {
     int c = 0;
-    queue<ii> q;
+    queue<pair<ii, int>> q;
     for(int i = 0; i < v.size(); ++i){
-        q.push(v[i]);
+        q.push(make_pair(v[i], 0));
         visited[v[i].first][v[i].second] = true;
-        cout << v[i].first << ' ' << v[i].second << endl;
     }
     
     while (!q.empty()) {
-        ii u = q.front(); q.pop();
-        int x = u.first;
-        int y = u.second;
+        pair<ii, int> u = q.front(); q.pop();
+        if(u.second >= t) continue;
+        int x = u.first.first;
+        int y = u.first.second;
         bool b = (f[x][y] == 0);
         for(int i = 0; i < 4 + 4*b; ++i){
             int ax = x + lin[i];
@@ -37,7 +37,6 @@ int bfs(vector<ii> v, int n, int m) {
             if(ok(ax, ay, n, m)){
                 if(i >= 4){
                     if (f[ax][ay] == 1){ 
-                        cout << visited[ax][ay] << endl;
                         f[ax][ay] = 0;
                     }
                 } else {
@@ -47,7 +46,7 @@ int bfs(vector<ii> v, int n, int m) {
                 if(!visited[ax][ay]){
                     if(f[ax][ay] == 0 ){
                         c++;
-                        q.push(make_pair(ax, ay));
+                        q.push(make_pair(make_pair(ax, ay), u.second+1));
                         visited[ax][ay] = true;
                     }
                 }
@@ -70,5 +69,5 @@ int main(){
             if(aux == 0) s.push_back(make_pair(i, j));
         }
     }
-    cout << bfs(s, n, m) << endl;
+    cout << bfs(s, n, m, t) << endl;
 }
